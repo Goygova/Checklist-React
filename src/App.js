@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import ToDoData from './ToDoData';
+import CheckList from './CheckList';
+class App extends Component {
+	constructor() {
+		super();
+		this.state = {
+			togo: ToDoData
+		};
+		this.Destination = this.Destination.bind(this);
+	}
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	Destination(id) {
+		this.setState(prevState => {
+			const upToDate = prevState.togo.map(todo => {
+				if (todo.id === id) {
+					todo.done = !todo.done;
+				}
+				return todo;
+			});
+			return {
+				togo: upToDate
+			};
+		});
+	}
+
+	render() {
+		return (
+			<div>
+				{this.state.togo.map(item => (
+					<CheckList key={item.id} item={item} Destination={this.Destination} />
+				))}
+			</div>
+		);
+	}
 }
 
 export default App;
